@@ -1,0 +1,12 @@
+.logo_name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  color: rgb(94, 184, 228);
+}
+
+.logo {
+  width: 100px;
+  border-radius: 10px;
+}

@@ -1,0 +1,80 @@
+.generate {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.response_area {
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  width: 1000px;
+  height: 500px;
+  background-color: rgb(182, 246, 246);
+  border-radius: 10px;
+  border: 1px solid grey;
+}
+
+.chat_bot {
+  display: flex;
+  flex-direction: column;
+}
+
+.user {
+  align-self: flex-end;
+  padding: 10px 10px;
+  background-color: azure;
+  border-radius: 10px;
+}
+
+.bot {
+  align-self: flex-start;
+  padding: 10px 10px;
+  background-color: rgb(83, 211, 168);
+  border-radius: 10px;
+}
+
+.model_selector {
+  border-radius: 10px;
+  padding: 10px 10px;
+  border: 1px solid grey;
+  background-color: rgb(255, 255, 255);
+}
+
+.author_selector {
+  border-radius: 10px;
+  padding: 10px 10px;
+  border: 1px solid grey;
+  background-color: rgb(255, 255, 255);
+}
+
+.my_form {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+
+.user_input {
+  width: 800px;
+  border-radius: 10px;
+  padding: 10px 10px;
+  border: 1px solid grey;
+}
+
+.submit_button {
+  border-radius: 10px;
+  padding: 10px 10px;
+  border: 1px solid grey;
+  background-color: rgb(255, 255, 255);
+}
+
+.clear_button {
+  border-radius: 10px;
+  padding: 10px 10px;
+  border: 1px solid grey;
+  background-color: rgb(255, 255, 255);
+}
