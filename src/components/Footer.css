@@ -1,6 +1,7 @@
 .my_footer {
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-size: 17px;
+  justify-content: center;
+  color: rgb(72, 72, 72);
+  font-size: 22px;
 }

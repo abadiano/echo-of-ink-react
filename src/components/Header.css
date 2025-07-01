@@ -1,12 +1,28 @@
-.logo_name {
+.upper_box {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  color: rgb(94, 184, 228);
+  flex-direction: row;
+  justify-content: left;
+  align-items: left;
+  border-radius: 10px;
+  color: rgb(75, 80, 80);
+  background-color: rgb(205, 226, 247);
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 18px;
+  margin-bottom: 20px;
+  letter-spacing: none;
 }
 
-.logo {
-  width: 100px;
-  border-radius: 10px;
+.name {
+  font-size: 30px;
+  margin-left: 500px;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: larger;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: rgb(75, 80, 80);
 }

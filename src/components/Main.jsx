@@ -1,5 +1,5 @@
 import "./Main.css";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 export default function Main() {
   const randomResponses = [
@@ -9,99 +9,144 @@ export default function Main() {
     "Вопрос твой звучен, но молчание — благородней.",
     "Всё пройдёт, и это — тоже откровение.",
   ];
-  const [twoMsg, setTwoMsg] = useState([]);
-  const [charCounter, setCharCounter] = useState("");
-  const [requestSent, setRequestSent] = useState(false);
-  const [isResponse, setIsResponse] = useState(false);
 
-  // Simulate a call pipeline
-  function getMLResponse() {
-    const bot_response =
-      randomResponses[Math.floor(randomResponses.length * Math.random())];
-    setTwoMsg((prev) => [...prev, bot_response]);
-    setIsResponse(false);
+  // Add States and Refs
+  const [msgStream, setMsgStream] = useState([]);
+  const [modelSel, setModelSel] = useState("RNN");
+  const [authorSel, setAuthorSel] = useState("Pushkin");
+  const [charCounter, setCharCounter] = useState("");
+  const [loadingMsg, setLoadingMsg] = useState(false);
+  const [effectTrigger, setEffectTrigger] = useState(false);
+  const bottomRef = useRef(null);
+
+  // Handle localMem
+  useEffect(() => {
+    const storedModel = localStorage.getItem("model");
+    if (storedModel) setModelSel(storedModel);
+    const storedAuthor = localStorage.getItem("author");
+    if (storedAuthor) setAuthorSel(storedAuthor);
+  }, []);
+
+  // Handle scrolling into view
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behaviour: "smooth" });
+  }, [msgStream]);
+
+  // Handle Form Submission
+  function simulateMLCall() {
+    let bot_response =
+      randomResponses[Math.floor(Math.random() * randomResponses.length)];
+    bot_response = (
+      <p>
+        <strong>
+          Bot {modelSel} {authorSel}:
+        </strong>{" "}
+        {bot_response}
+        <span className="timestamp">{new Date().toLocaleTimeString()}</span>
+      </p>
+    );
+
+    setMsgStream((prev) => [...prev, bot_response]);
+    setLoadingMsg((prev) => !prev);
   }
 
   useEffect(() => {
-    if (twoMsg.length > 0) {
-      setTimeout(() => getMLResponse(), 1000);
+    if (msgStream.length > 0) {
+      setTimeout(() => simulateMLCall(), 1000);
     }
-  }, [requestSent]);
+  }, [effectTrigger]);
 
-  // Handle form submission
-  function handleOnSubmit(formData) {
-    const user_input = formData.get("user_input");
-    setTwoMsg((prev) => [...prev, user_input]);
-    setRequestSent((prev) => !prev);
-    setIsResponse(true);
+  function handleFormSubmit(formdata) {
+    let user_input = formdata.get("user_input");
+    user_input = (
+      <p>
+        <strong>You:</strong> {user_input}
+        <span className="timestamp">{new Date().toLocaleTimeString()}</span>
+      </p>
+    );
+
+    setMsgStream((prev) => [...prev, user_input]);
+    setLoadingMsg((prev) => !prev);
+    setEffectTrigger((prev) => !prev);
     setCharCounter("");
   }
 
-  const twoMsgMapped = twoMsg.map((prev, index) => {
+  // Handle Model Change
+  function handleModelChange(event) {
+    const model = event.target.value;
+    localStorage.setItem("model", model);
+    setModelSel((prev) => model);
+  }
+
+  // Handle Author Change
+  function handleAuthorChange(event) {
+    const author = event.target.value;
+    localStorage.setItem("author", author);
+    setAuthorSel((prev) => author);
+  }
+
+  // Handle "Clear" Event
+  function handleOnClick() {
+    setMsgStream([]);
+  }
+
+  // Map message stream to proper form
+  const renderedMsgStream = msgStream.map((element, index) => {
     if (index % 2 === 0) {
-      return (
-        <div className="chat_bot user">
-          <p>
-            <strong>You:</strong> {prev}
-          </p>
-        </div>
-      );
+      return <div className="msg-box user"> {element}</div>;
     } else {
-      return (
-        <div className="chat_bot bot">
-          <p>
-            <strong>Bot:</strong> {prev}
-          </p>
-        </div>
-      );
+      return <div className="msg-box bot">{element}</div>;
     }
   });
 
   return (
     <>
       <div className="generate">
-        <div className="selectors">
-          <select className="model_selector">
+        <div className="all_selectors">
+          <select
+            onChange={handleModelChange}
+            name="model"
+            className="selectors"
+            value={modelSel}
+          >
             <option value="RNN">RNN</option>
             <option value="GPT-2">GPT-2</option>
             <option value="GPT-3.5">GPT-3.5</option>
           </select>
-          <select className="author_selector">
+          <select
+            onChange={handleAuthorChange}
+            name="author"
+            className="selectors"
+            value={authorSel}
+          >
             <option value="Pushkin">Pushkin</option>
             <option value="Lermontov">Lermontov</option>
             <option value="Tolstoy">Tolstoy</option>
           </select>
         </div>
-
         <div className="response_area">
-          {twoMsgMapped}
-          {isResponse && twoMsg.length != 0 && (
-            <div className="chat_bot bot">
-              <p>
-                <strong>Bot is thinking...</strong>
-              </p>
-            </div>
-          )}
+          {renderedMsgStream}
+          {loadingMsg && <p className="msg-box bot">Loading...</p>}
+          <div ref={bottomRef}></div>
         </div>
-
-        <form action={handleOnSubmit} className="my_form">
+        <form action={handleFormSubmit} className="my_form">
           <input
-            value={charCounter}
             onChange={(prev) => setCharCounter(prev.target.value)}
+            value={charCounter}
             className="user_input"
             name="user_input"
             type="text"
-            placeholder="Enter here..."
+            placeholder="Enter query..."
+            required
           ></input>
-          <button className="submit_button">Submit query!</button>
+          <button className="submit_button" type="submit">
+            Submit query!
+          </button>
         </form>
-
-        <button onClick={(prev) => setTwoMsg([])} className="clear_button">
+        <button onClick={handleOnClick} className="clear_button">
           Clear it!
         </button>
-        <span className="char_counter">
-          Number of characters: {charCounter.length}
-        </span>
+        <span className="char_counter">{charCounter.length} characters</span>
       </div>
     </>
   );

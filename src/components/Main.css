@@ -1,80 +1,87 @@
-.generate {
+.all_selectors {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  margin-top: 10px;
+}
+
+.selectors {
+  padding: 20px 20px;
+  border-radius: 10px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
 .response_area {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
-  width: 1000px;
-  height: 500px;
-  background-color: rgb(182, 246, 246);
+  width: 1200px;
+  height: 600px;
+  background-color: rgb(220, 246, 248);
   border-radius: 10px;
-  border: 1px solid grey;
+  border: 1px solid rgb(128, 126, 126);
 }
 
-.chat_bot {
+.msg-box {
   display: flex;
   flex-direction: column;
+  padding: 10px 10px;
+  border-radius: 10px;
+  border: 1px solid grey;
 }
 
 .user {
+  display: flex;
+  flex-direction: column;
   align-self: flex-end;
-  padding: 10px 10px;
-  background-color: azure;
-  border-radius: 10px;
+  background-color: aquamarine;
+  margin: 10px;
 }
 
 .bot {
+  display: flex;
+  flex-direction: column;
   align-self: flex-start;
-  padding: 10px 10px;
-  background-color: rgb(83, 211, 168);
-  border-radius: 10px;
+  background-color: bisque;
+  margin: 10px;
 }
 
-.model_selector {
-  border-radius: 10px;
-  padding: 10px 10px;
-  border: 1px solid grey;
-  background-color: rgb(255, 255, 255);
-}
-
-.author_selector {
-  border-radius: 10px;
-  padding: 10px 10px;
-  border: 1px solid grey;
-  background-color: rgb(255, 255, 255);
+.timestamp {
+  display: block;
+  font-size: 12px;
 }
 
 .my_form {
+  width: 1200px;
   display: flex;
+  flex-direction: row;
   justify-content: center;
   align-items: center;
-  gap: 5px;
+  gap: 10px;
 }
-
 .user_input {
-  width: 800px;
-  border-radius: 10px;
+  width: 900px;
   padding: 10px 10px;
-  border: 1px solid grey;
+  border-radius: 10px;
 }
 
 .submit_button {
+  padding: 10px 20px;
   border-radius: 10px;
-  padding: 10px 10px;
-  border: 1px solid grey;
   background-color: rgb(255, 255, 255);
 }
 
 .clear_button {
+  padding: 10px 20px;
   border-radius: 10px;
-  padding: 10px 10px;
-  border: 1px solid grey;
   background-color: rgb(255, 255, 255);
+}
+
+.generate {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
